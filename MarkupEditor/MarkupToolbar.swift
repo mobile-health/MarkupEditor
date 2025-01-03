@@ -77,7 +77,7 @@ public struct MarkupToolbar: View {
         }
         // Because the icons in toolbars are sized based on font, we need to limit their dynamicTypeSize
         // or they become illegible at very large sizes.
-        .dynamicTypeSize(.small ... .xLarge)
+//        .dynamicTypeSize(.small ... .xLarge) ios 15
         .frame(height: MarkupEditor.toolbarStyle.height())
         .zIndex(999)
     }

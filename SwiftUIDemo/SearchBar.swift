@@ -18,6 +18,7 @@ import MarkupEditor
 ///
 /// Note that by default, search mode is never activated. To activate it, you must use `activate: true` in your
 /// call to `MarkupWKWebView.search(for:direction:activate:handler:)`.
+@available(iOS 15.0, *)
 struct SearchBar: View {
     @State var searchString: String = ""
     @State var direction: MarkupEditor.FindDirection = .forward

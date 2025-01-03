@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 15.0, *)
 class LinkViewController: UIViewController {
 
     private var selectionState: SelectionState = MarkupEditor.selectionState
@@ -256,6 +257,7 @@ class LinkViewController: UIViewController {
     
 }
 
+@available(iOS 15.0, *)
 extension LinkViewController: UITextViewDelegate {
     
     /// Update href as the user types (note this never executes if shouldChangeTextIn returns false)

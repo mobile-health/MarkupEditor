@@ -7,6 +7,7 @@
 
 import UIKit
 
+@available(iOS 15.0, *)
 class ImageViewController: UIViewController {
 
     private var selectionState: SelectionState = MarkupEditor.selectionState
@@ -318,6 +319,7 @@ class ImageViewController: UIViewController {
     
 }
 
+@available(iOS 15.0, *)
 extension ImageViewController: UITextViewDelegate {
     
     /// Update src as the user types (note this never executes if shouldChangeTextIn returns false)
@@ -374,6 +376,7 @@ extension ImageViewController: UITextViewDelegate {
     
 }
 
+@available(iOS 15.0, *)
 extension ImageViewController: UIDocumentPickerDelegate {
     
     /// Use the standard UIDocumentPickerViewController to choose a local image

@@ -5,8 +5,8 @@
 //  Created by Steven Harris on 10/6/23.
 //
 
-import SwiftUI
 import MarkupEditor
+import SwiftUI
 
 /// Similar to DemoContentView, but with a SearchBar at the top to demo search functionality.
 ///
@@ -20,21 +20,22 @@ import MarkupEditor
 /// `resourcesUrl` when  instantiating MarkupEditorView, so that the \<img src=...> tag can identify
 /// the `src` for the image relative to your html document.
 struct SearchableContentView: View {
-
     @ObservedObject var selectImage = MarkupEditor.selectImage
     @State private var documentPickerShowing: Bool = false
     @State private var demoHtml: String
-    
+
     var body: some View {
         VStack(spacing: 0) {
-            SearchBar()
-                .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+            if #available(iOS 15.0, *) {
+                SearchBar()
+                    .padding(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+            }
             MarkupEditorView(markupDelegate: self, html: $demoHtml, id: "Document")
         }
         .pick(isPresented: $selectImage.value, documentTypes: MarkupEditor.supportedImageTypes, onPicked: imageSelected(url:), onCancel: nil)
         .onDisappear { MarkupEditor.selectedWebView = nil }
     }
-    
+
     init() {
         if let demoUrl = Bundle.main.resourceURL?.appendingPathComponent("demo.html") {
             _demoHtml = State(initialValue: (try? String(contentsOf: demoUrl)) ?? "")
@@ -42,21 +43,19 @@ struct SearchableContentView: View {
             _demoHtml = State(initialValue: "")
         }
     }
-    
+
     private func imageSelected(url: URL) {
         guard let view = MarkupEditor.selectedWebView else { return }
         markupImageToAdd(view, url: url)
     }
-    
 }
 
 extension SearchableContentView: MarkupDelegate {
-    
-    func markupDidLoad(_ view: MarkupWKWebView, handler: (()->Void)?) {
+    func markupDidLoad(_ view: MarkupWKWebView, handler: (() -> Void)?) {
         MarkupEditor.selectedWebView = view
-        view.becomeFirstResponderIfReady()  // We don't want the SearchBar to be firstResponder
+        view.becomeFirstResponderIfReady() // We don't want the SearchBar to be firstResponder
     }
-    
+
     /// Callback received after a local image has been added to the document.
     ///
     /// Note the URL will be to a copy of the image you identified, copied to the caches directory for the app.
@@ -65,6 +64,4 @@ extension SearchableContentView: MarkupDelegate {
     func markupImageAdded(url: URL) {
         print("Image added from \(url.path)")
     }
-
-
 }
